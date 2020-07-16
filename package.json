@@ -4,9 +4,30 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "mig:generate": "sequelize-cli migration:generate --name",
+    "mig": "sequelize-cli db:migrate",
+    "mig:undo": "sequelize-cli db:migrate:undo",
+    "seed:generate": "sequelize-cli seed:generate --name",
+    "seed": "sequelize-cli db:seed:all",
+    "seed:undo": "sequelize-cli db:seed:undo",
+    "dev": "egg-bin dev",
+    "start": "egg-scripts start --title=todolist-bz-server",
+    "stop": "egg-scripts stop --title=todolist-bz-server"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "async-validator": "^3.3.0",
+    "egg": "^2.26.1",
+    "egg-scripts": "^2.13.0",
+    "egg-sequelize": "^5.2.2",
+    "lodash": "^4.17.19",
+    "md5": "^2.2.1",
+    "mysql2": "^2.1.0"
+  },
+  "devDependencies": {
+    "egg-bin": "^4.14.1",
+    "sequelize-cli": "^6.2.0"
+  }
 }

@@ -1,0 +1,16 @@
+{
+  "development": {
+    "username": "root",
+    "password": "ybybdwyJ42.",
+    "database": "to-do-list",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": "ybybdwyJ42.",
+    "database": "to-do-list",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
