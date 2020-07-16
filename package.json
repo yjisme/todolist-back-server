@@ -9,7 +9,7 @@
     "mig:undo": "sequelize-cli db:migrate:undo",
     "seed:generate": "sequelize-cli seed:generate --name",
     "seed": "sequelize-cli db:seed:all",
-    "seed:undo": "sequelize-cli db:seed:undo",
+    "seed:undo": "sequelize-cli db:seed:undo:all",
     "dev": "egg-bin dev",
     "start": "egg-scripts start --title=todolist-bz-server",
     "stop": "egg-scripts stop --title=todolist-bz-server"

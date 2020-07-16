@@ -53,7 +53,6 @@ module.exports = (app) => {
           exclude: ["loginPwd"],
         },
       },
-      instanceMethods: {},
     }
   );
 
