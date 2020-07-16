@@ -43,9 +43,10 @@ exports.md5 = function (value) {
 };
 
 class ValidateError extends Error {
-  constructor(errors) {
+  constructor(errors, code = 422) {
     super(JSON.stringify(errors));
     this.errors = errors;
+    this.code = code;
   }
 }
 

@@ -48,7 +48,19 @@ module.exports = (app) => {
     },
     {
       tableName: "users",
+      defaultScope: {
+        attributes: {
+          exclude: ["loginPwd"],
+        },
+      },
+      instanceMethods: {},
     }
   );
+
+  User.prototype.toJSON = function () {
+    const obj = this.get();
+    delete obj.loginPwd;
+    return obj;
+  };
   return User;
 };

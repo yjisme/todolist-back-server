@@ -46,27 +46,34 @@ module.exports = class extends Service {
           },
         },
       ],
+      isAdmin: [
+        {
+          type: "boolean",
+        },
+      ],
     };
   }
 
   /**
    * 添加一个用户
-   * TODO:启动后要自动添加一个管理员用户
    * @param {{
    * loginId:string,
    * loginPwd:string,
-   * email:string
+   * email:string,
+   * isAdmin: boolean
    * }} userInfo
    */
-  async _addUser(userInfo, isAdmin) {
-    userInfo = this.ctx.helper.pick(userInfo, "loginId", "loginPwd", "email");
+  async addUser(userInfo) {
+    userInfo = this.ctx.helper.pick(
+      userInfo,
+      "loginId",
+      "loginPwd",
+      "email",
+      "isAdmin"
+    );
     userInfo = this.ctx.helper.trim(userInfo, "loginId", "loginPwd", "email");
     const rule = this._getAddUserValidateRule();
     await this.ctx.helper.validate(userInfo, rule);
-    // 处理角色
-    userInfo.role = isAdmin
-      ? this.app.model.User.ROLE_ADMIN
-      : this.app.model.User.ROLE_NORMAL;
     // 处理密码
     userInfo.loginPwd = this.ctx.helper.md5(userInfo.loginPwd);
     // 启用用户
@@ -75,39 +82,14 @@ module.exports = class extends Service {
   }
 
   /**
-   * 注册用户
-   * @param {{
-   * loginId:string,
-   * loginPwd:string,
-   * email:string
-   * }} userInfo
-   */
-  async reg(userInfo) {
-    return await this._addUser(userInfo, false);
-  }
-
-  /**
-   * 添加管理员
-   * @param {{
-   * loginId:string,
-   * loginPwd:string,
-   * email:string
-   * }} userInfo
-   */
-  async addAdmin(userInfo) {
-    return await this._addUser(userInfo, true);
-  }
-
-  /**
-   * 根据登录信息查询用户对象，登录成功返回用户对象，登录失败，返回null
-   * TODO:注意，这里的登录不会考虑用户是否被禁用的情况，这种情况需要在上层处理
+   * 登录成功返回用户对象，登录失败，返回null
    * @param {{loginId: string, loginPwd:string}} loginInfo 登录信息对象，包含账号或邮箱、密码
    */
-  async getUserByLoginInfo(loginInfo) {
+  async login(loginInfo) {
     loginInfo = this.ctx.helper.pick(loginInfo, "loginId", "loginPwd");
     loginInfo = this.ctx.helper.trim(loginInfo, "loginId", "loginPwd");
     loginInfo.loginPwd = this.ctx.helper.md5(loginInfo.loginPwd);
-    return await this.app.model.User.findOne({
+    const u = await this.app.model.User.findOne({
       where: {
         [this.app.Sequelize.Op.or]: [
           {
@@ -121,6 +103,10 @@ module.exports = class extends Service {
         ],
       },
     });
+    if (!u || u.enable) {
+      return u;
+    }
+    throw new this.ctx.helper.ValidateError("this accout is not enable", 403);
   }
 
   /**
@@ -128,9 +114,6 @@ module.exports = class extends Service {
    */
   async getUsers(page = 1, limit = 10, filter = {}, order = []) {
     return await this.app.model.User.findAndCountAll({
-      attributes: {
-        exclude: ["loginPwd"],
-      },
       where: filter,
       order,
       offset: (page - 1) * limit,
@@ -181,6 +164,7 @@ module.exports = class extends Service {
         id,
       },
     });
+    return true;
   }
 
   async getUserByLoginId(loginId) {
