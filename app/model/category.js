@@ -7,7 +7,6 @@ module.exports = (app) => {
       userId: {
         type: INTEGER,
         allowNull: false,
-        field: "userId",
       },
       name: {
         type: STRING,
@@ -25,21 +24,18 @@ module.exports = (app) => {
       },
       createdAt: {
         type: DATE,
-        field: "createdAt",
         get() {
           return new Date(this.getDataValue("createdAt")).getTime();
         },
       },
       updatedAt: {
         type: DATE,
-        field: "updatedAt",
         get() {
           return new Date(this.getDataValue("updatedAt")).getTime();
         },
       },
       deletedAt: {
         type: DATE,
-        field: "deletedAt",
         get() {
           return new Date(this.getDataValue("deletedAt")).getTime();
         },

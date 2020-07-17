@@ -7,10 +7,18 @@ exports.sequelize = {
   database: "to-do-list",
   username: "root",
   password: "ybybdwyJ42.",
+  benchmark: true,
+  define: {
+    underscored: false,
+  },
 };
 
 exports.middleware = ["formatBody"];
 
 exports.formatBody = {
   match: "/api",
+};
+
+exports.logger = {
+  consoleLevel: "error",
 };

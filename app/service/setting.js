@@ -24,7 +24,6 @@ module.exports = class extends Service {
     setting = this.ctx.helper.pick(setting, Object.keys(defaultSetting));
     const entries = Object.entries(setting);
     for (const [k, v] of entries) {
-      console.log(k, v);
       const curSetting = await this.app.model.Setting.findOne({
         where: {
           key: k,
