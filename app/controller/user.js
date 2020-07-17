@@ -1,5 +1,5 @@
 const Controller = require("egg").Controller;
-require("sequelize").Op;
+
 module.exports = class extends Controller {
   async getUsers() {
     const filter = {};

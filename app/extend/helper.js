@@ -83,3 +83,7 @@ exports.validate = async function (obj, rule) {
     throw new ValidateError(err.errors);
   }
 };
+
+exports.getRandomString = function (length) {
+  return Math.random().toString(36).slice(-length);
+};

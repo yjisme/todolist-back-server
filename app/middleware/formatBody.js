@@ -13,7 +13,6 @@ module.exports = (options, app) => {
         detail: null,
         data: ctx.body,
       };
-      console.log(ctx.body);
     } catch (err) {
       if (err instanceof ctx.helper.ValidateError) {
         ctx.body = {
@@ -30,7 +29,7 @@ module.exports = (options, app) => {
         detail: "internal server error",
         data: null,
       };
-      throw err;
+      app.logger.error(err);
     }
   };
 };

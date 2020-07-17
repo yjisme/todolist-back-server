@@ -6,7 +6,16 @@ function userApi(router) {
   router.get("/api/user/one", "user.getUser");
 }
 
+function categoryApi(router) {}
+
+function settingApi(router) {
+  router.get("/api/setting", "setting.getSetting");
+  router.put("/api/setting", "setting.setSetting");
+}
+
 module.exports = (app) => {
   const { router } = app;
   userApi(router);
+  categoryApi(router);
+  settingApi(router);
 };
