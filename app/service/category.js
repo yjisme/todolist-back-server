@@ -3,14 +3,13 @@ const Service = require("egg").Service;
 module.exports = class extends Service {
   /**
    * 添加一个分类
-   * TODO:要限制一下每个用户最多的分类数量，考虑该数量是否需要在后台配置
    * @param {*} categoryInfo
    */
   async addCategory(categoryInfo) {
-    categoryInfo = this.helper.pick(categoryInfo, "user", "name");
-    categoryInfo = this.helper.trim(categoryInfo, "name");
+    categoryInfo = this.ctx.helper.pick(categoryInfo, "userId", "name");
+    categoryInfo = this.ctx.helper.trim(categoryInfo, "name");
     const rule = {
-      user: [
+      userId: [
         {
           required: true,
         },
@@ -27,13 +26,30 @@ module.exports = class extends Service {
         },
       ],
     };
-    await this.helper.validate(categoryInfo, rule);
-    return await this.model.TaskCategory.create(categoryInfo);
+    await this.ctx.helper.validate(categoryInfo, rule);
+    // 验证数量
+    const cateNumber = await this.app.model.Category.count({
+      where: {
+        userId: categoryInfo.userId,
+      },
+    });
+    const setting = await this.service.setting.getSetting();
+    if (cateNumber >= setting.maxCategoryNumber) {
+      throw new this.ctx.helper.ValidateError(
+        `用户的分类数量不能超过设置的分类数量，目前该用户的分类数量是${cateNumber}，设置的最大分类数量是${setting.maxCategoryNumber}`
+      );
+    }
+    return await this.app.model.Category.create(categoryInfo);
   }
 
+  /**
+   * 修改一个分类，仅可修改分类的名称
+   * @param {*} id
+   * @param {*} categoryInfo
+   */
   async updateCategory(id, categoryInfo) {
-    categoryInfo = this.helper.pick(categoryInfo, "name", "order");
-    categoryInfo = this.helper.trim(categoryInfo, "name");
+    categoryInfo = this.ctx.helper.pick(categoryInfo, "name");
+    categoryInfo = this.ctx.helper.trim(categoryInfo, "name");
     const rule = {
       name: [
         {
@@ -41,25 +57,28 @@ module.exports = class extends Service {
         },
       ],
     };
-    await this.helper.validate(categoryInfo, rule);
-    await this.model.TaskCategory.update(categoryInfo, {
+    await this.ctx.helper.validate(categoryInfo, rule);
+    await this.app.model.Category.update(categoryInfo, {
       where: {
         id,
       },
     });
+    return true;
   }
 
   async deleteCategory(id) {
-    await this.model.TaskCategory.destroy({
+    await this.app.model.Category.destroy({
       where: {
         id,
       },
     });
-    await this.model.Task.destroy({
-      where: {
-        category: id,
-      },
-    });
+    //TODO:同时删除该分类下的多个任务
+    // await this.model.Task.destroy({
+    //   where: {
+    //     category: id,
+    //   },
+    // });
+    return true;
   }
 
   /**
@@ -68,9 +87,9 @@ module.exports = class extends Service {
    * @returns {{name, total, unfinish, ... }}
    */
   async getAllCategory(userId) {
-    return await this.model.TaskCategory.findAll({
+    return await this.app.model.Category.findAll({
       where: {
-        user: userId,
+        userId,
       },
     });
   }

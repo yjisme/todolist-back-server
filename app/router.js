@@ -6,7 +6,12 @@ function userApi(router) {
   router.get("/api/user/one", "user.getUser");
 }
 
-function categoryApi(router) {}
+function categoryApi(router) {
+  router.post("/api/cate", "category.addCategory");
+  router.put("/api/cate/:id", "category.updateCategory");
+  router.delete("/api/cate/:id", "category.deleteCategory");
+  router.get("/api/:userId/cate", "category.getAllCategory");
+}
 
 function settingApi(router) {
   router.get("/api/setting", "setting.getSetting");

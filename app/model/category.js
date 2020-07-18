@@ -37,7 +37,10 @@ module.exports = (app) => {
       deletedAt: {
         type: DATE,
         get() {
-          return new Date(this.getDataValue("deletedAt")).getTime();
+          if (this.getDataValue("deletedAt")) {
+            return new Date(this.getDataValue("deletedAt")).getTime();
+          }
+          return null;
         },
       },
     },
