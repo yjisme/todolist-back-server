@@ -6,6 +6,7 @@ const defaultSetting = {
   siteLogo: "", // 网站的Logo访问地址
   siteDescription: "", // 网站的描述
   siteKeywords: "", // 网站关键字，逗号分隔
+  urgencyMinute: 60, // 任务的默认urgencyMinute
 };
 
 module.exports = class extends Service {
