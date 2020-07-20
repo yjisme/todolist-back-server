@@ -12,16 +12,6 @@ module.exports = (app) => {
         type: STRING,
         allowNull: false,
       },
-      total: {
-        type: INTEGER,
-        allowNull: false,
-        defaultValue: 0,
-      },
-      unfinish: {
-        type: INTEGER,
-        allowNull: false,
-        defaultValue: 0,
-      },
       createdAt: {
         type: DATE,
         get() {

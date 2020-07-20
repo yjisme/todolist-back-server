@@ -18,9 +18,24 @@ function settingApi(router) {
   router.put("/api/setting", "setting.setSetting");
 }
 
+function taskApi(router) {
+  router.get("/api/:userId/task/today", "task.today");
+  router.get("/api/:userId/task/schedule", "task.schedule");
+  router.get("/api/:userId/task/pass", "task.pass");
+  router.get("/api/:userId/task/urgency", "task.urgency");
+  router.get("/api/:userId/task/notebook", "task.noteBook");
+  router.get("/api/:userId/task/summary", "task.summary");
+  router.get("/api/:userId/task/cate/:cateId", "task.categroyTasks");
+
+  router.post("/api/:userId/task", "task.addTask");
+  router.put("/api/:userId/task/:taskId", "task.updateTask");
+  router.delete("/api/:userId/task/:taskId", "task.deleteTask");
+}
+
 module.exports = (app) => {
   const { router } = app;
   userApi(router);
   categoryApi(router);
   settingApi(router);
+  taskApi(router);
 };

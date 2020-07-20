@@ -18,7 +18,7 @@ module.exports = {
       const cateMaxId = userId * 10;
       const cateMinId = cateMaxId - 9;
       const categoryId = getDataOrNull(getRandom(cateMinId, cateMaxId));
-      const deadLineDistance = 20; // deadLine的间隔
+      const deadLineDistance = 120; // deadLine的间隔
       const deadLine = getDataOrNull(
         getRandom(
           Date.now() - deadLineDistance * 3600 * 1000 * 24,

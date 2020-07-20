@@ -56,12 +56,27 @@ module.exports = (app) => {
       isUrgency: {
         type: VIRTUAL,
         get() {
+          if (this.isPass) {
+            return false;
+          }
           if (this.isFinish) {
             return false;
           }
           if (this.deadLine) {
             const diff = new Date(this.deadLine).getTime() - Date.now();
             if (diff <= this.urgencyMinute * 60 * 1000) {
+              return true;
+            }
+          }
+          return false;
+        },
+      },
+      isPass: {
+        type: VIRTUAL,
+        get() {
+          if (this.deadLine) {
+            const diff = new Date(this.deadLine).getTime() - Date.now();
+            if (diff <= 0) {
               return true;
             }
           }
@@ -97,7 +112,6 @@ module.exports = (app) => {
   );
 
   Task.associate = function () {
-    console.log("aaaa");
     app.model.Task.belongsTo(app.model.User, {
       as: "user",
       foreignKey: "userId",

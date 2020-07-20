@@ -72,19 +72,18 @@ module.exports = class extends Service {
         id,
       },
     });
-    //TODO:同时删除该分类下的多个任务
-    // await this.model.Task.destroy({
-    //   where: {
-    //     category: id,
-    //   },
-    // });
+    await this.app.model.Task.destroy({
+      where: {
+        categoryId: id,
+      },
+    });
     return true;
   }
 
   /**
    * 获取某个用户的所有分类
    * @param {*} userId
-   * @returns {{name, total, unfinish, ... }}
+   * @returns {{name,... }}
    */
   async getAllCategory(userId) {
     return await this.app.model.Category.findAll({
@@ -92,5 +91,14 @@ module.exports = class extends Service {
         userId,
       },
     });
+  }
+
+  async isMatch(userId, cateId) {
+    const cate = await this.app.model.Category.findByPk(cateId);
+    if (!cate) {
+      return false;
+    }
+    console.log(cate.userId, userId, cate.userId === userId);
+    return cate.userId === userId;
   }
 };

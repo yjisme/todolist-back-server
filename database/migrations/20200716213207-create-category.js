@@ -20,16 +20,6 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      total: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        defaultValue: 0,
-      },
-      unfinish: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        defaultValue: 0,
-      },
       createdAt: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,
