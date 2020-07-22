@@ -66,17 +66,20 @@ module.exports = class extends Service {
     return true;
   }
 
+  // TODO:需要检查是否是该用户的
   async deleteCategory(id) {
     await this.app.model.Category.destroy({
       where: {
         id,
       },
     });
-    await this.app.model.Task.destroy({
-      where: {
-        categoryId: id,
-      },
-    });
+
+    // 无须删除其下任务，这些任务的分类自动变为空
+    // await this.app.model.Task.destroy({
+    //   where: {
+    //     categoryId: id,
+    //   },
+    // });
     return true;
   }
 

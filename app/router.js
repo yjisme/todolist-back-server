@@ -32,10 +32,17 @@ function taskApi(router) {
   router.delete("/api/:userId/task/:taskId", "task.deleteTask");
 }
 
+function trashApi(router) {
+  router.get("/api/:userId/trash", "trash.getTrashes");
+  router.post("/api/:userId/trash/restore", "trash.restoreTrashes");
+  router.post("/api/:userId/trash/delete", "trash.deleteTrashes");
+}
+
 module.exports = (app) => {
   const { router } = app;
   userApi(router);
   categoryApi(router);
   settingApi(router);
   taskApi(router);
+  trashApi(router);
 };
