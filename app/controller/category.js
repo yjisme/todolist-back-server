@@ -2,6 +2,7 @@ const Controller = require("egg").Controller;
 
 module.exports = class extends Controller {
   async addCategory() {
+    this.ctx.request.body.userId = +this.ctx.params.userId;
     this.ctx.body = await this.service.category.addCategory(
       this.ctx.request.body
     );
@@ -9,6 +10,7 @@ module.exports = class extends Controller {
 
   async updateCategory() {
     this.ctx.body = await this.service.category.updateCategory(
+      this.ctx.params.userId,
       this.ctx.params.id,
       this.ctx.request.body
     );
@@ -16,6 +18,7 @@ module.exports = class extends Controller {
 
   async deleteCategory() {
     this.ctx.body = await this.service.category.deleteCategory(
+      this.ctx.params.userId,
       this.ctx.params.id
     );
   }

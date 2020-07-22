@@ -47,7 +47,11 @@ module.exports = class extends Service {
    * @param {*} id
    * @param {*} categoryInfo
    */
-  async updateCategory(id, categoryInfo) {
+  async updateCategory(userId, id, categoryInfo) {
+    const isMatch = await this.isMatch(userId, id);
+    if (!isMatch) {
+      throw new this.ctx.helper.ValidateError("category is not exits");
+    }
     categoryInfo = this.ctx.helper.pick(categoryInfo, "name");
     categoryInfo = this.ctx.helper.trim(categoryInfo, "name");
     const rule = {
@@ -66,20 +70,15 @@ module.exports = class extends Service {
     return true;
   }
 
-  // TODO:需要检查是否是该用户的
-  async deleteCategory(id) {
+  async deleteCategory(userId, id) {
     await this.app.model.Category.destroy({
       where: {
+        userId,
         id,
       },
     });
 
     // 无须删除其下任务，这些任务的分类自动变为空
-    // await this.app.model.Task.destroy({
-    //   where: {
-    //     categoryId: id,
-    //   },
-    // });
     return true;
   }
 
@@ -101,7 +100,6 @@ module.exports = class extends Service {
     if (!cate) {
       return false;
     }
-    console.log(cate.userId, userId, cate.userId === userId);
-    return cate.userId === userId;
+    return +cate.userId === +userId;
   }
 };

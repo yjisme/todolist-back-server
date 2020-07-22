@@ -7,9 +7,9 @@ function userApi(router) {
 }
 
 function categoryApi(router) {
-  router.post("/api/cate", "category.addCategory");
-  router.put("/api/cate/:id", "category.updateCategory");
-  router.delete("/api/cate/:id", "category.deleteCategory");
+  router.post("/api/:userId/cate", "category.addCategory");
+  router.put("/api/:userId/cate/:id", "category.updateCategory");
+  router.delete("/api/:userId/cate/:id", "category.deleteCategory");
   router.get("/api/:userId/cate", "category.getAllCategory");
 }
 
