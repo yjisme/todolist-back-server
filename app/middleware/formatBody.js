@@ -10,14 +10,18 @@ module.exports = (options, app) => {
       ctx.status = 200;
       ctx.body = {
         code: 0,
-        detail: null,
+        msg: "",
         data: ctx.body,
       };
     } catch (err) {
       if (err instanceof ctx.helper.ValidateError) {
+        let msg = err.errors;
+        if (Array.isArray(msg)) {
+          msg = msg.length > 0 ? msg[0].message : "validate error";
+        }
         ctx.body = {
           code: err.code,
-          detail: err.errors,
+          msg,
           data: null,
         };
         ctx.status = err.code;
@@ -26,7 +30,7 @@ module.exports = (options, app) => {
       ctx.status = 500;
       ctx.body = {
         code: 500,
-        detail: "internal server error",
+        msg: "internal server error",
         data: null,
       };
       app.logger.error(err);

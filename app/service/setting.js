@@ -15,10 +15,13 @@ module.exports = class extends Service {
     const entries = setting.map((s) => [s.key, s.value]);
     setting = Object.fromEntries(entries);
     setting = this.ctx.helper.pick(setting, Object.keys(defaultSetting));
-    return {
+    const result = {
       ...defaultSetting,
       ...setting,
     };
+    result.maxCategoryNumber = +result.maxCategoryNumber;
+    result.urgencyMinute = +result.urgencyMinute;
+    return result;
   }
 
   async setSetting(setting) {

@@ -10,6 +10,7 @@
     "seed:generate": "sequelize-cli seed:generate --name",
     "seed": "npm run seed:undo && sequelize-cli db:seed:all",
     "seed:undo": "sequelize-cli db:seed:undo:all",
+    "dev": "egg-bin dev",
     "build": "NODE_ENV=production && npm run mig",
     "start": "NODE_ENV=production && egg-scripts start --daemon --title=todolist-bz-server",
     "stop": "egg-scripts stop --title=todolist-bz-server"

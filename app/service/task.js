@@ -45,6 +45,9 @@ module.exports = class extends Service {
           [Op.gte]: todayBegin,
           [Op.not]: null,
         },
+        finishDate: {
+          [Op.is]: null,
+        },
       },
       ...this._getExtraOption(),
     });
@@ -97,6 +100,9 @@ module.exports = class extends Service {
         deadLine: {
           [Op.gte]: tomorrowBegin,
         },
+        finishDate: {
+          [Op.is]: null,
+        },
       },
       ...this._getExtraOption(),
     });
@@ -147,7 +153,6 @@ module.exports = class extends Service {
     const Sequelize = this.app.Sequelize;
     const Op = Sequelize.Op;
     const now = Date.now() / 1000;
-    console.log();
     return await this.app.model.Task.findAll({
       where: {
         [Op.and]: [
