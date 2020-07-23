@@ -8,6 +8,6 @@ exports.sequelize = {
 
 exports.cluster = {
   listen: {
-    port: 7000,
+    port: 7001,
   },
 };
