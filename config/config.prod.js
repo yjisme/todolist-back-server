@@ -5,3 +5,9 @@ exports.sequelize = {
   username: "root",
   password: "ybybdwyJ42.",
 };
+
+exports.cluster = {
+  listen: {
+    port: 7000,
+  },
+};
