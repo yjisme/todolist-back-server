@@ -13,7 +13,7 @@ exports.sequelize = {
   },
 };
 
-exports.middleware = ["formatBody"];
+exports.middleware = ["pageParser", "formatBody"];
 
 exports.formatBody = {
   match: "/api",

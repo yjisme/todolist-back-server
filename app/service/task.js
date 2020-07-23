@@ -50,6 +50,30 @@ module.exports = class extends Service {
     });
   }
 
+  async searchTask(userId, keyword, page = 1, limit = 30) {
+    const Op = this.app.Sequelize.Op;
+    return await this.app.model.Task.findAndCountAll({
+      where: {
+        userId,
+        [Op.or]: [
+          {
+            title: {
+              [Op.like]: `%${keyword}%`,
+            },
+          },
+          {
+            remark: {
+              [Op.like]: `%${keyword}%`,
+            },
+          },
+        ],
+      },
+      offset: (page - 1) * limit,
+      limit,
+      ...this._getExtraOption(),
+    });
+  }
+
   /**
    * 获取将来的任务
    * 这样的任务特点：

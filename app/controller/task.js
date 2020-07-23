@@ -72,5 +72,12 @@ module.exports = class extends Controller {
     );
   }
 
-  // TODO:搜索？
+  async searchTask() {
+    this.ctx.body = await this.service.task.searchTask(
+      this.ctx.params.userId,
+      this.ctx.query.key,
+      this.ctx.query.page,
+      this.ctx.query.limit
+    );
+  }
 };

@@ -26,6 +26,7 @@ function taskApi(router) {
   router.get("/api/:userId/task/notebook", "task.noteBook");
   router.get("/api/:userId/task/summary", "task.summary");
   router.get("/api/:userId/task/cate/:cateId", "task.categroyTasks");
+  router.get("/api/:userId/task/search", "task.searchTask");
 
   router.post("/api/:userId/task", "task.addTask");
   router.put("/api/:userId/task/:taskId", "task.updateTask");
